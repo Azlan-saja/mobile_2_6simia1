@@ -11,12 +11,14 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int _indexLayar = 1;
+  int _indexLayar = 2;
+
   final List _layarTerpilih = [
     const Message(),
     const Home(),
     const Account(),
   ];
+
   void _ganti(int index) {
     setState(() {
       _indexLayar = index;
