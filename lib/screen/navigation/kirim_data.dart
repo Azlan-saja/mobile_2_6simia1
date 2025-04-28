@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class KirimData extends StatelessWidget {
-  const KirimData({super.key});
+  final String data;
+  const KirimData({ super.key, required this.data });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kirim Data')),
-      body: const Center(
-        child: Text('Hello AzlansajaTV'),
+      body:      Center(
+        child: Text('$data Hello AzlansajaTV'),
       ),
     );
   }
