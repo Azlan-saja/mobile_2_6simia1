@@ -7,6 +7,7 @@ class Navigation extends StatelessWidget {
   Navigation({super.key});
 
   final outputHasil = TextEditingController();
+  final inputNilai1 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +60,7 @@ class Navigation extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12),
               child: TextFormField(
+                controller: inputNilai1,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
