@@ -8,6 +8,7 @@ class Navigation extends StatelessWidget {
 
   final outputHasil = TextEditingController();
   final inputNilai1 = TextEditingController();
+  final hasilContoller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,19 +70,24 @@ class Navigation extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                final respon = await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const KirimTerimaData(),
+                    builder: (context) => KirimTerimaData(nilai1: int.tryParse(inputNilai1.text) ?? 0),
                   ),
                 );
+                if (respon != null) {
+                  // Data tersedia
+                  hasilContoller.text = respon;
+                }
               },
               child: const Text('Kirim & Terima Data'),
             ),
             Padding(
               padding: const EdgeInsets.all(12),
               child: TextFormField(
+                controller: hasilContoller,
                 textAlign: TextAlign.center,
                 readOnly: true,
                 decoration: const InputDecoration(

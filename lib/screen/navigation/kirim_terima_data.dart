@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class KirimTerimaData extends StatelessWidget {
-  const KirimTerimaData({super.key});
+  final int nilai1;
+  KirimTerimaData({super.key, required this.nilai1});
+
+  final inputNilai2Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +17,7 @@ class KirimTerimaData extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12),
               child: TextFormField(
+                initialValue: "$nilai1",
                 textAlign: TextAlign.center,
                 readOnly: true,
                 decoration: const InputDecoration(
@@ -25,6 +29,7 @@ class KirimTerimaData extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12),
               child: TextFormField(
+                controller: inputNilai2Controller,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -33,7 +38,12 @@ class KirimTerimaData extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                int nilai2 = int.tryParse(inputNilai2Controller.text) ?? 0;
+                int hasil = nilai1 + nilai2;
+                String kirimRespon = "$nilai1 + $nilai2 = $hasil";
+                Navigator.pop(context, kirimRespon);
+              },
               child: const Text('Hitung & Kembali'),
             ),
           ],
