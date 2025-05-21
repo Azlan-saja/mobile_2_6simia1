@@ -1,22 +1,59 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class FileJsonScreen extends StatelessWidget {
-  FileJsonScreen({super.key});
+class FileJsonScreen extends StatefulWidget {
+  const FileJsonScreen({super.key});
 
-  final jamController = TextEditingController();
+  @override
+  State<FileJsonScreen> createState() => _FileJsonScreenState();
+}
+
+class _FileJsonScreenState extends State<FileJsonScreen> {
+  final _jamController = TextEditingController();
+  final _pelajaranController = TextEditingController();
+  List<Map<String, dynamic>> roster = [];
+
+  readRoster() async {
+    final isiFile = await rootBundle.loadString('assets/roster.json');
+    roster = List<Map<String, dynamic>>.from(jsonDecode(isiFile));
+    setState(() {});
+  }
+
+  void createRoster() {
+    // buat id baru atau increment id yang terakhir
+    int idBaru = roster.isNotEmpty ? roster.last['id'] + 1 : 1;
+    if (_jamController.text.isNotEmpty &&
+        _pelajaranController.text.isNotEmpty) {
+      setState(() {
+        roster.add({
+          "id": idBaru,
+          "jam": _jamController.text,
+          "pelajaran": _pelajaranController.text
+        });
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    readRoster();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Layar File JSON"),
+        title: const Text("Layar Read File JSON"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
           children: [
             TextFormField(
-              controller: jamController,
+              controller: _jamController,
               onTap: () {
                 showTimePicker(
                   context: context,
@@ -25,7 +62,7 @@ class FileJsonScreen extends StatelessWidget {
                   (value) {
                     if (value != null) {
                       if (!context.mounted) return;
-                      jamController.text = value.format(context);
+                      _jamController.text = value.format(context);
                     }
                   },
                 );
@@ -42,6 +79,7 @@ class FileJsonScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             TextFormField(
+              controller: _pelajaranController,
               decoration: const InputDecoration(
                 labelText: 'Mata Pelajaran',
                 border: OutlineInputBorder(
@@ -55,7 +93,9 @@ class FileJsonScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(onPressed: () {}, child: const Text('Simpan')),
+                ElevatedButton(
+                    onPressed: () => createRoster(),
+                    child: const Text('Simpan')),
                 ElevatedButton(onPressed: () {}, child: const Text('Batal')),
               ],
             ),
@@ -65,7 +105,7 @@ class FileJsonScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: 100,
+                itemCount: roster.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: CircleAvatar(
@@ -80,15 +120,15 @@ class FileJsonScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    title: const Text(
-                      'Azlan',
-                      style: TextStyle(
+                    title: Text(
+                      roster[index]["jam"],
+                      style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     subtitle: Text(
-                      '1019019201',
+                      roster[index]["pelajaran"],
                       style: TextStyle(
                           color: Theme.of(context).appBarTheme.backgroundColor,
                           fontStyle: FontStyle.italic),

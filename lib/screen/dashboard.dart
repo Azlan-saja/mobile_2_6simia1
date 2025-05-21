@@ -89,14 +89,14 @@ class _DashboardState extends State<Dashboard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => StateManajemen(),
+                    builder: (context) => const StateManajemen(),
                   ),
                 );
               },
             ),
             ListTile(
-              leading: const Icon(Icons.data_array),
-              title: const Text('File JSON'),
+              leading: const Icon(Icons.file_open_outlined),
+              title: const Text('Read File JSON'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -117,7 +117,7 @@ class _DashboardState extends State<Dashboard> {
           BottomNavigationBarItem(
             icon: Badge.count(
               count: provider.hasil,
-              child: Icon(Icons.message),
+              child: const Icon(Icons.message),
             ),
             label: 'Message',
           ),
